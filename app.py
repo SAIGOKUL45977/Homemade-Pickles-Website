@@ -8,7 +8,7 @@ from decimal import Decimal
 app = Flask(__name__)
 app.secret_key = 'your_very_secret_key_12345'  # Change for production!
 
-dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')  # e.g., 'us-east-1'
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 users_table = dynamodb.Table('Users')
 orders_table = dynamodb.Table('Orders')
 
@@ -63,7 +63,7 @@ def login():
 
         try:
             # Fetch user from DynamoDB
-            response = users_table.get_item(Key={'username': username})
+            response = users_table.get_item(Key={'Username': username})
             
             if 'Item' not in response:
                 return render_template('login.html', error='User not found')
@@ -108,7 +108,7 @@ def signup():
             # Store new user in DynamoDB
             users_table.put_item(
                 Item={
-                    'username': username,
+                    'Username': username,
                     'email': email,
                     'password': hashed_password  # Store hashed password
                 }
@@ -203,7 +203,7 @@ def checkout():
             try:
                 orders_table.put_item(
                     Item={
-                        'order_id': str(uuid.uuid4()),
+                        'Order_id': str(uuid.uuid4()),
                         'username': session.get('username', 'Guest'),
                         'name': name,
                         'address': address,
