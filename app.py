@@ -98,7 +98,7 @@ def signup():
 
         try:
             # Check if username exists
-            response = users_table.get_item(Key={'username': username})
+            response = users_table.get_item(Key={'Username': username})
             if 'Item' in response:
                 return render_template('signup.html', error='Username already exists')
 
